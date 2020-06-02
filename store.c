@@ -45,7 +45,8 @@ void initFournisseur(Fournisseur *fr){
 }
 
 void initMedicament(Medicament *drug){
-    drug->numM = 0;
+    drug->numM = rand();
+    // drug->numM = 0;
     strcpy(drug->lab, "Lab0");
     strcpy(drug->nomM, "Medicament0");
     drug->px = 0.0;
@@ -57,81 +58,4 @@ void initMedicament(Medicament *drug){
     initFournisseur(&fr);
     drug->lt = lt;
     drug->fr = fr;
-}
-
-List *initList()
-{
-    List *list = malloc(sizeof(*list));
-    Item *item = malloc(sizeof(*item));
-
-    if (list == NULL || item == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    Medicament drug;
-    initMedicament(&drug);
-    item->drug = drug;
-    item->next = NULL;
-    list->first = item;
-
-    return list;
-}
-
-void insertItem(List *list, Medicament drug)
-{
-    /* Création du nouvel élément */
-    Item *nouveau = malloc(sizeof(*nouveau));
-    if (list == NULL || nouveau == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-    nouveau->drug = drug;
-
-    /* Insertion de l'élément au début de la list */
-    nouveau->next = list->first;
-    list->first = nouveau;
-}
-
-void deleteItem(List *list)
-{
-    if (list == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    if (list->first != NULL)
-    {
-        Item *aSupprimer = list->first;
-        list->first = list->first->next;
-        free(aSupprimer);
-    }
-}
-
-void printDrugs(List *list)
-{
-    if (list == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    Item *current = list->first;
-    char buffer[200];
-
-    printf("---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n");
-
-    while (current != NULL)
-    {
-        printf("%s", displayDrug(&current->drug, buffer));
-        current = current->next;
-    }
-}
-
-
-char *displayDrug(const Medicament *drug, char *buffer){
-    char dateFormated[40];
-    sprintf(dateFormated, "%d/%d/%d", drug->lt.dtp.jr, drug->lt.dtp.mo, drug->lt.dtp.an);
-    sprintf(buffer,"%d\t%s\t%s\t%s\t%s\t%f\t%d\n",drug->numM, drug->nomM, drug->lab, drug->lt.ref, dateFormated, drug->px, drug->Qstock);
-
-    return buffer;
 }
