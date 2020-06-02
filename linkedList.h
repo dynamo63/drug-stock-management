@@ -17,11 +17,12 @@ struct List
 };
 
 List *initList();
-void insertItem(List *list, Medicament drug);
-void insertItemToMidle(List *list, Medicament *predDrug, Medicament newDrug);
+int issetItem(List *list, Medicament drug);
+void insertItem(List *list, Medicament *drug);
 void deleteItem(List *list);
-void deleteItemToMidle(List *list, Medicament *aSuprimmer);
 void printDrugs(List *list);
+Medicament getDrugById(List *list, int id);
+Medicament getDrugByName(List *list, char name);
 char *displayDrug(const Medicament *drug, char *buffer);
 
 // Sauvegarde la liste dans fichier FMED.txt
