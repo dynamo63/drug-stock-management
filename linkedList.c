@@ -103,38 +103,44 @@ void printDrugs(List *list)
 }
 
 Medicament getDrugById(List *list, int id){
-    if(list == NULL){
+    if(list == NULL)
         exit(EXIT_FAILURE);
-    }
 
     Item *actuel  = list->first;
 
-    while (actuel != NULL && actuel->medicament.numM != id){
+    while (actuel->next != NULL && actuel->medicament.numM != id){
         actuel = actuel->next;
     }
-    if(actuel == NULL){
-        exit(EXIT_FAILURE);
-    }else{
-        return actuel->medicament;
+
+    if(actuel == NULL)
+    {
+        Medicament drug;
+        initMedicament(&drug);
+        return drug;
     }
+    else
+        return actuel->medicament;
     
 }
 
 Medicament getDrugByName(List *list, char name){
-    if(list == NULL){
+    if(list == NULL)
         exit(EXIT_FAILURE);
-    }
 
     Item *actuel  = list->first;
 
     while (actuel != NULL && actuel->medicament.nomM != name){
         actuel = actuel->next;
     }
-    if(actuel == NULL){
-        exit(EXIT_FAILURE);
-    }else{
-        return actuel->medicament;
+
+    if(actuel == NULL)
+    {
+        Medicament drug;
+        initMedicament(&drug);
+        return drug;
     }
+    else
+        return actuel->medicament;
     
 }
     
