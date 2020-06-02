@@ -37,32 +37,13 @@ typedef struct{
 
 }Medicament;
 
-// Liste des médicaments
-
-typedef struct Item Item;
-struct Item
-{
-    Medicament medicament;
-    Item *next;
-};
-
-typedef struct List List;
-struct List
-{
-    Item *first;
-};
-
 // fonction utilitaire
 int menu();
 
-List *initList();
-void insertItem(List *list, Medicament drug);
-void deleteItem(List *list);
 void initDate(Date *date);
 void initLot(Lot *lot);
 void initFournisseur(Fournisseur *fr);
 void initMedicament(Medicament *drug);
-void printDrugs(List *list);
 
 
 
