@@ -84,7 +84,7 @@ void afficherListe(Liste *liste)
 
     Item *actuel = liste->first;
 
-    printf("---------------------------------------------------------------------------------------------------------------------------\nNum Nom\tLab\tRefLot\tDate Préemption\tPrix\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n");
+    printf("---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n");
 
     while (actuel != NULL)
     {
@@ -93,5 +93,4 @@ void afficherListe(Liste *liste)
         printf("%d\t%s\t%s\t%s\t%s\t\t%f\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, dateParsed, actuel->medicament.px, actuel->medicament.Qstock);
         actuel = actuel->next;
     }
-    printf("NULL\n");
 }
