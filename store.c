@@ -88,7 +88,9 @@ void afficherListe(Liste *liste)
 
     while (actuel != NULL)
     {
-        printf("%d\t%s\t%s\t%s\t%s\t%d\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, actuel->medicament.lt.dtp.jr, );
+        char dateParsed[40];
+        sprintf(dateParsed, "%d/%d/%d", actuel->medicament.lt.dtp.jr, actuel->medicament.lt.dtp.mo, actuel->medicament.lt.dtp.an);
+        printf("%d\t%s\t%s\t%s\t%s\t\t%f\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, dateParsed, actuel->medicament.px, actuel->medicament.Qstock);
         actuel = actuel->next;
     }
     printf("NULL\n");
