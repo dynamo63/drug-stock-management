@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include "store.h"
 #include "linkedList.h"
+#include <stdbool.h>
 
 
 int main(int argc, char *argv[]){
-
 
     Medicament medoc1, medoc2, medoc3, medoc4;
     initMedicament(&medoc1);
@@ -13,15 +13,23 @@ int main(int argc, char *argv[]){
     initMedicament(&medoc3);
     initMedicament(&medoc4);
 
+
     List *maListe = initList();
-    
-    insertItem(maListe, medoc1);
-    insertItem(maListe, medoc3);
-    insertItem(maListe, medoc4);
-    insertItemToMidle(maListe, &medoc1, medoc2);
-    deleteItemToMidle(maListe, &medoc3);
-    
+
+    insertItem(maListe, &medoc1);
+    insertItem(maListe, &medoc2);
+    sprintf(medoc2.lt.ref, "001");
+    insertItem(maListe, &medoc2);
+    printf("%s\n", medoc2.lt.ref);
+    insertItem(maListe, &medoc2);
+    insertItem(maListe, &medoc2);
     printDrugs(maListe);
+    
+    // system("clear");
+
+    // int choix=0, nbMED, nm, aa;
+
+
 
     return 0;
 }

@@ -50,8 +50,8 @@ void initMedicament(Medicament *drug){
     strcpy(drug->lab, "Lab0");
     strcpy(drug->nomM, "Medicament0");
     drug->px = 0.0;
-    drug->Qstock = 0;
-    drug->S_stc = 0;
+    drug->Qstock = 1;
+    drug->S_stc = 1;
     Lot lt;
     Fournisseur fr;
     initLot(&lt);
