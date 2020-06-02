@@ -123,3 +123,32 @@ char *displayDrug(const Medicament *drug, char *buffer){
 
     return buffer;
 }
+
+void save(List *list) {
+    if (list == NULL)
+        exit(EXIT_FAILURE);
+
+    FILE *folderFMED = NULL, *folderID = NULL;
+
+    folderFMED = fopen("db/FMED.txt", "a");
+    folderID = fopen("db/id.txt", "w");
+
+    if (folderFMED == NULL)
+        exit(EXIT_FAILURE);
+
+    Item *item = list->first;
+
+    do{
+        char buffer[200];
+        fprintf(folderFMED,"%s", displayDrug(&item->medicament, buffer));
+        item = item->next;
+    }while (item->next != NULL);
+
+    // Sauvegarde du dernier item ainsi que l'id
+    char buf[200];
+    fprintf(folderFMED,"%s", displayDrug(&item->medicament, buf));
+    fprintf(folderID, "%d", item->medicament.numM);
+
+    
+    fclose(folderFMED);
+}

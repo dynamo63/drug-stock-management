@@ -25,5 +25,7 @@ int main(int argc, char *argv[]){
     
     printDrugs(maListe);
 
+    save(maListe);
+
     return 0;
 }

@@ -23,7 +23,7 @@ int menu(void)
     printf(" 9:  servir une ordonnance: \n\n ");
     printf(" 1O: afficher les medicaments perimes: \n\n ");
     printf(" 11: supprimer un medicament: \n\n ");
-    printf (" 12: saugegarder la liste de medicament dans un fichier --FMED--\n\n");
+    printf (" 12: sauvegarder la liste de medicament dans un fichier --FMED--\n\n");
     printf(" 0:  quitter\n\n");
     printf("Tapez un numero de 1 a 12 ou 0 pour quitter \n\n");
     scanf("%d",&choix);

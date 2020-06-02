@@ -24,4 +24,7 @@ void deleteItemToMidle(List *list, Medicament *aSuprimmer);
 void printDrugs(List *list);
 char *displayDrug(const Medicament *drug, char *buffer);
 
+// Sauvegarde la liste dans fichier FMED.txt
+void save(List *list);
+
 #endif
