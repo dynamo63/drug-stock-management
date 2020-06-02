@@ -45,7 +45,8 @@ void initFournisseur(Fournisseur *fr){
 }
 
 void initMedicament(Medicament *drug){
-    drug->numM = 0;
+    drug->numM = rand();
+    // drug->numM = 0;
     strcpy(drug->lab, "Lab0");
     strcpy(drug->nomM, "Medicament0");
     drug->px = 0.0;

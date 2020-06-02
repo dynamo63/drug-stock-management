@@ -38,6 +38,27 @@ void insertItem(List *list, Medicament drug)
     list->first = new;
 }
 
+void insertItemToMidle(List *list, Medicament *precDrug, Medicament newDrug){
+    Item *new = malloc(sizeof(*new));
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    new->medicament = newDrug;
+    Item *actuel = list->first;
+
+    while(actuel != NULL && actuel->medicament.numM != precDrug->numM){
+        actuel = actuel->next;
+    }
+    // si on a trouvé une corespondance, on ajoute l'élément
+    if(actuel != NULL){
+        new->next = actuel->next;
+        actuel->next = new;
+    }else{
+        printf("L'element %s n'est pas dans la liste", precDrug->nomM);
+    }
+}
+
 void deleteItem(List *list)
 {
     if (list == NULL)
@@ -53,6 +74,29 @@ void deleteItem(List *list)
     }
 }
 
+void deleteItemToMidle(List *list, Medicament *aSuprimmer){
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    Item *prec = list->first, *actuel = list->first;
+
+    while(actuel != NULL){
+        prec = actuel;
+        actuel = actuel->next;
+        if(actuel->medicament.numM != aSuprimmer->numM){
+            break;
+        }
+    }
+    // si on a trouvé une corespondance, on ajoute l'élément
+    if(actuel != NULL){
+        prec->next = actuel->next;
+        free(actuel);
+    }else{
+        printf("L'element %s n'est pas dans la liste", aSuprimmer->nomM);
+    }
+}
+
 void printDrugs(List *list)
 {
     if (list == NULL)
@@ -62,7 +106,7 @@ void printDrugs(List *list)
 
     Item *actuel = list->first;
 
-    printf("---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n");
+    printf("""---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n""");
 
     while (actuel != NULL)
     {
