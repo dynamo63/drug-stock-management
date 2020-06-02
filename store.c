@@ -68,11 +68,10 @@ List *initList()
     {
         exit(EXIT_FAILURE);
     }
-    Lot lot;
-    initLot(&lot);
 
-    Medicament medoc1 = {0,"lab0","medicament0", 100, 2, 0, lot};
-    item->medicament = medoc1;
+    Medicament medoc = {0,"lab0","medicament0", 100, 2, 0, lot};
+    initMedicament(medoc);
+    item->medicament = medoc;
     item->next = NULL;
     list->first = item;
 
