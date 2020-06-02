@@ -46,25 +46,24 @@ struct Item
     Item *next;
 };
 
-typedef struct Liste Liste;
-struct Liste
+typedef struct List List;
+struct List
 {
     Item *first;
 };
 
-Liste *initialisation();
-void insertion(Liste *liste, Medicament nvMedicament);
-void suppression(Liste *liste);
-void afficherListe(Liste *liste);
-
-
-
-
-
 // fonction utilitaire
 int menu();
+
+List *initList();
+void insertItem(List *list, Medicament drug);
+void deleteItem(List *list);
+void initDate(Date *date);
+void initLot(Lot *lot);
+void initFournisseur(Fournisseur *fr);
+void initMedicament(Medicament *drug);
+void printDrugs(List *list);
 
 
 
 #endif // MINI_PROJET_H_INCLUDED
-

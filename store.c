@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "store.h"
+#include <string.h>
 
 int menu(void)
 {
@@ -24,65 +25,98 @@ int menu(void)
     return choix;
 }
 
-Liste *initialisation()
+void initDate(Date *date){
+    date->an = 2020;
+    date->jr = 1;
+    date->mo = 1;
+}
+
+void initLot(Lot *lot){
+    Date date;
+    initDate(&date);
+    strcpy(lot->ref, "Lot0");
+    lot->dtf = date;
+    lot->dtp = date;
+}
+void initFournisseur(Fournisseur *fr){
+    fr->tel = 0;
+    strcpy(fr->adr, "adresse");
+    strcpy(fr->nomF, "nomF");
+}
+
+void initMedicament(Medicament *drug){
+    drug->numM = 0;
+    strcpy(drug->lab, "Lab0");
+    strcpy(drug->nomM, "Medicament0");
+    drug->px = 0.0;
+    drug->Qstock = 0;
+    drug->S_stc = 0;
+    Lot lt;
+    Fournisseur fr;
+    initLot(&lt);
+    initFournisseur(&fr);
+    drug->lt = lt;
+    drug->fr = fr;
+}
+
+List *initList()
 {
-    Liste *liste = malloc(sizeof(*liste));
+    List *list = malloc(sizeof(*list));
     Item *item = malloc(sizeof(*item));
 
-    if (liste == NULL || item == NULL)
+    if (list == NULL || item == NULL)
     {
         exit(EXIT_FAILURE);
     }
-    Date dtf = {0,0,0};
-    Date dtp = {1,1,1};
-    Lot lot = {"0", dtf, dtp};
+    Lot lot;
+    initLot(&lot);
 
     Medicament medoc1 = {0,"lab0","medicament0", 100, 2, 0, lot};
     item->medicament = medoc1;
     item->next = NULL;
-    liste->first = item;
+    list->first = item;
 
-    return liste;
+    return list;
 }
 
-void insertion(Liste *liste, Medicament nvMedicament)
+void insertItem(List *list, Medicament drug)
 {
     /* Création du nouvel élément */
     Item *nouveau = malloc(sizeof(*nouveau));
-    if (liste == NULL || nouveau == NULL)
+    if (list == NULL || nouveau == NULL)
     {
         exit(EXIT_FAILURE);
     }
-    nouveau->medicament = nvMedicament;
+    nouveau->medicament = drug;
 
-    /* Insertion de l'élément au début de la liste */
-    nouveau->next = liste->first;
-    liste->first = nouveau;
+    /* Insertion de l'élément au début de la list */
+    nouveau->next = list->first;
+    list->first = nouveau;
 }
 
-void suppression(Liste *liste)
+void deleteItem(List *list)
 {
-    if (liste == NULL)
+    if (list == NULL)
     {
         exit(EXIT_FAILURE);
     }
 
-    if (liste->first != NULL)
+    if (list->first != NULL)
     {
-        Item *aSupprimer = liste->first;
-        liste->first = liste->first->next;
+        Item *aSupprimer = list->first;
+        list->first = list->first->next;
         free(aSupprimer);
     }
 }
 
-void afficherListe(Liste *liste)
+void printDrugs(List *list)
 {
-    if (liste == NULL)
+    if (list == NULL)
     {
         exit(EXIT_FAILURE);
     }
 
-    Item *actuel = liste->first;
+    Item *actuel = list->first;
 
     printf("---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n");
 
@@ -90,7 +124,7 @@ void afficherListe(Liste *liste)
     {
         char dateParsed[40];
         sprintf(dateParsed, "%d/%d/%d", actuel->medicament.lt.dtp.jr, actuel->medicament.lt.dtp.mo, actuel->medicament.lt.dtp.an);
-        printf("%d\t%s\t%s\t%s\t%s\t\t%f\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, dateParsed, actuel->medicament.px, actuel->medicament.Qstock);
+        printf("%d\t%s\t%s\t%s\t%s\t%f\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, dateParsed, actuel->medicament.px, actuel->medicament.Qstock);
         actuel = actuel->next;
     }
 }
