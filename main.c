@@ -6,6 +6,8 @@
 
 int main(int argc, char *argv[]){
 
+    initId();
+
 
     Medicament medoc1, medoc2, medoc3, medoc4;
     initMedicament(&medoc1);
