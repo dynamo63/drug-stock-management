@@ -90,16 +90,15 @@ void printDrugs(List *list)
         exit(EXIT_FAILURE);
     }
 
-    Item *actuel = list->first;
+    Item *current = list->first;
 
     printf("""---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n""");
 
-    while (actuel != NULL)
+    while (current != NULL)
     {
-        char dateParsed[40];
-        sprintf(dateParsed, "%d/%d/%d", actuel->medicament.lt.dtp.jr, actuel->medicament.lt.dtp.mo, actuel->medicament.lt.dtp.an);
-        printf("%d\t%s\t%s\t%s\t%s\t%f\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, dateParsed, actuel->medicament.px, actuel->medicament.Qstock);
-        actuel = actuel->next;
+        char buffer[200];   
+        printf("%s", displayDrug(&current->medicament, buffer));
+        current = current->next;
     }
 }
 
@@ -120,6 +119,7 @@ Medicament getDrugById(List *list, int id){
     }
     
 }
+
 Medicament getDrugByName(List *list, char name){
     if(list == NULL){
         exit(EXIT_FAILURE);
@@ -136,4 +136,41 @@ Medicament getDrugByName(List *list, char name){
         return actuel->medicament;
     }
     
+}
+    
+char *displayDrug(const Medicament *drug, char *buffer){
+    char dateFormated[40];
+    sprintf(dateFormated, "%d/%d/%d", drug->lt.dtp.jr, drug->lt.dtp.mo, drug->lt.dtp.an);
+    sprintf(buffer,"%d\t%s\t%s\t%s\t%s\t%f\t%d\n",drug->numM, drug->nomM, drug->lab, drug->lt.ref, dateFormated, drug->px, drug->Qstock);
+
+    return buffer;
+}
+
+void save(List *list) {
+    if (list == NULL)
+        exit(EXIT_FAILURE);
+
+    FILE *folderFMED = NULL, *folderID = NULL;
+
+    folderFMED = fopen("db/FMED.txt", "a");
+    folderID = fopen("db/id.txt", "w");
+
+    if (folderFMED == NULL)
+        exit(EXIT_FAILURE);
+
+    Item *item = list->first;
+
+    do{
+        char buffer[200];
+        fprintf(folderFMED,"%s", displayDrug(&item->medicament, buffer));
+        item = item->next;
+    }while (item->next != NULL);
+
+    // Sauvegarde du dernier item ainsi que l'id
+    char buf[200];
+    fprintf(folderFMED,"%s", displayDrug(&item->medicament, buf));
+    fprintf(folderID, "%d", item->medicament.numM);
+
+    
+    fclose(folderFMED);
 }

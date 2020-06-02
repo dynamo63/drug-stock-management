@@ -44,8 +44,7 @@ void initDate(Date *date);
 void initLot(Lot *lot);
 void initFournisseur(Fournisseur *fr);
 void initMedicament(Medicament *drug);
-
-
+void initId();
 
 #endif // MINI_PROJET_H_INCLUDED
 

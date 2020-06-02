@@ -7,6 +7,8 @@
 
 int main(int argc, char *argv[]){
 
+    initId();
+
     Medicament medoc1, medoc2, medoc3, medoc4;
     initMedicament(&medoc1);
     initMedicament(&medoc2);
@@ -30,6 +32,8 @@ int main(int argc, char *argv[]){
     // int choix=0, nbMED, nm, aa;
 
 
+
+    save(maListe);
 
     return 0;
 }
