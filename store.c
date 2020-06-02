@@ -69,9 +69,9 @@ List *initList()
         exit(EXIT_FAILURE);
     }
 
-    Medicament medoc;
-    initMedicament(&medoc);
-    item->medicament = medoc;
+    Medicament drug;
+    initMedicament(&drug);
+    item->drug = drug;
     item->next = NULL;
     list->first = item;
 
@@ -86,7 +86,7 @@ void insertItem(List *list, Medicament drug)
     {
         exit(EXIT_FAILURE);
     }
-    nouveau->medicament = drug;
+    nouveau->drug = drug;
 
     /* Insertion de l'élément au début de la list */
     nouveau->next = list->first;
@@ -115,15 +115,23 @@ void printDrugs(List *list)
         exit(EXIT_FAILURE);
     }
 
-    Item *actuel = list->first;
+    Item *current = list->first;
+    char buffer[200];
 
     printf("---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n");
 
-    while (actuel != NULL)
+    while (current != NULL)
     {
-        char dateParsed[40];
-        sprintf(dateParsed, "%d/%d/%d", actuel->medicament.lt.dtp.jr, actuel->medicament.lt.dtp.mo, actuel->medicament.lt.dtp.an);
-        printf("%d\t%s\t%s\t%s\t%s\t%f\t%d\n", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.lab, actuel->medicament.lt.ref, dateParsed, actuel->medicament.px, actuel->medicament.Qstock);
-        actuel = actuel->next;
+        printf("%s", displayDrug(&current->drug, buffer));
+        current = current->next;
     }
+}
+
+
+char *displayDrug(const Medicament *drug, char *buffer){
+    char dateFormated[40];
+    sprintf(dateFormated, "%d/%d/%d", drug->lt.dtp.jr, drug->lt.dtp.mo, drug->lt.dtp.an);
+    sprintf(buffer,"%d\t%s\t%s\t%s\t%s\t%f\t%d\n",drug->numM, drug->nomM, drug->lab, drug->lt.ref, dateFormated, drug->px, drug->Qstock);
+
+    return buffer;
 }

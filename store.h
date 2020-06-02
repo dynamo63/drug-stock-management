@@ -42,7 +42,7 @@ typedef struct{
 typedef struct Item Item;
 struct Item
 {
-    Medicament medicament;
+    Medicament drug;
     Item *next;
 };
 
@@ -63,6 +63,7 @@ void initLot(Lot *lot);
 void initFournisseur(Fournisseur *fr);
 void initMedicament(Medicament *drug);
 void printDrugs(List *list);
+char *displayDrug(const Medicament *drug, char *buffer);
 
 
 
