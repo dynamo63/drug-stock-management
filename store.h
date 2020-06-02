@@ -10,10 +10,11 @@ typedef struct{
 
 typedef struct{
 
-    int ref;
+    char ref[10];
     Date dtf;
     Date dtp;
 }Lot;
+
 
 
 typedef struct {
@@ -36,31 +37,33 @@ typedef struct{
 
 }Medicament;
 
-// Un Item de la liste de Medicament 
+// Liste des médicaments
+
 typedef struct Item Item;
-struct Item{
-    Medicament drug;
+struct Item
+{
+    Medicament medicament;
     Item *next;
 };
 
-typedef struct List List;
-struct List
+typedef struct Liste Liste;
+struct Liste
 {
     Item *first;
 };
+
+Liste *initialisation();
+void insertion(Liste *liste, Medicament nvMedicament);
+void suppression(Liste *liste);
+void afficherListe(Liste *liste);
+
+
 
 
 
 // fonction utilitaire
 int menu();
 
-List *initList();
-void insertItem(List *list, Medicament drug);
-void deleteItem(List *list);
-void initDate(Date *date);
-void initLot(Lot *lot);
-void initFournisseur(Fournisseur *fr);
-void initMedicament(Medicament *drug);
 
 
 #endif // MINI_PROJET_H_INCLUDED
