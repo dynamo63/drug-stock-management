@@ -13,9 +13,7 @@ List *initList()
     Item *item = malloc(sizeof(*item));
 
     if (list == NULL || item == NULL)
-    {
         exit(EXIT_FAILURE);
-    }
 
     Medicament medoc;
     initMedicament(&medoc);
@@ -26,42 +24,49 @@ List *initList()
     return list;
 }
 
-// Vérifie si la liste contient déja le médicament
-int containItem(List *list, Medicament drug){
+// Vérifie si la liste contient déja le médicament de meme nom
+int containItem(List *list, Medicament *drug){
     if (list == NULL)
-    {
         exit(EXIT_FAILURE);
-    }
+
     Item *actuel = list->first;
 
-    while(actuel != NULL && actuel->medicament.numM != drug.numM){
+    while(actuel != NULL && strcmp(actuel->medicament.nomM, drug->nomM) != 0 && strcmp(actuel->medicament.lt.ref, drug->lt.ref) != 0)
+    {
         actuel = actuel->next;
     }
     
-    if(actuel != NULL){
+    if(actuel != NULL)
         return true;
-    }else{
+    else
         return false;
-    }
 }
+
 
 // Insère un Medicament en début de liste
 void insertItem(List *list, Medicament *drug)
 {
     /* Création du nouvel élément */
-    Item *new = malloc(sizeof(*new));
-    if (list == NULL || new == NULL)
-    {
+    Item *item = malloc(sizeof(*item));
+
+    if (list == NULL || item == NULL)
         exit(EXIT_FAILURE);
+
+    if(containItem(list, drug))
+    {
+        Medicament *pt_drug = getDrugByName(list, drug->nomM);
+        // char buf[200];
+        // printf("%s", displayDrug(pt_drug, buf));
+        if(strcmp(pt_drug->nomM, drug->nomM) == 0)
+            pt_drug->Qstock++;
+        pt_drug = NULL;
     }
-    if(containItem(list, *drug)){
-        
-        
-    }else{
-        new->medicament = *drug;
+    else
+    {
+        item->medicament = *drug;
         /* Insertion de l'élément au début de la list */
-        new->next = list->first;
-        list->first = new;
+        item->next = list->first;
+        list->first = item;
     }
 }
 
@@ -123,24 +128,20 @@ Medicament getDrugById(List *list, int id){
     
 }
 
-Medicament getDrugByName(List *list, char name){
+Medicament *getDrugByName(List *list, char *name){
     if(list == NULL)
         exit(EXIT_FAILURE);
 
     Item *actuel  = list->first;
 
-    while (actuel != NULL && actuel->medicament.nomM != name){
+    while (actuel != NULL && strcmp(actuel->medicament.nomM, name)){
         actuel = actuel->next;
     }
 
     if(actuel == NULL)
-    {
-        Medicament drug;
-        initMedicament(&drug);
-        return drug;
-    }
+        return &list->first->medicament;
     else
-        return actuel->medicament;
+        return &actuel->medicament;
     
 }
     

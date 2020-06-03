@@ -26,12 +26,6 @@ int main(int argc, char *argv[]){
     insertItem(maListe, &medoc2);
     insertItem(maListe, &medoc2);
     printDrugs(maListe);
-    
-    // system("clear");
-
-    // int choix=0, nbMED, nm, aa;
-
-
 
     save(maListe);
 
