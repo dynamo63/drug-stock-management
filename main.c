@@ -6,40 +6,30 @@
 
 
 int main(int argc, char *argv[]){
+    // initId();
+    Date datetf = createDate(3,3,2010);
+    Date datetp = createDate(3,3,2010);
+    Lot lot, lot2;
+    initLot(&lot);
+    initLot(&lot2);
+    sprintf(lot2.ref, "C3PO");
+    Fournisseur fournisseur;
+    initFournisseur(&fournisseur);
 
-    initId();
+    Medicament medoc1 = createDrug("labo-saint", "Medicament1", 20.000, 5, 2, lot, fournisseur);
+    Medicament medoc2 = createDrug("labo-saint", "Medicament2", 20.000, 5, 2, lot, fournisseur);
+    Medicament medoc3 = createDrug("labo-saint", "Medicament3", 20.000, 5, 2, lot, fournisseur);
+    Medicament medoc4 = createDrug("labo-saint", "Medicament4", 20.000, 5, 2, lot, fournisseur);
+    Medicament medoc5 = createDrug("labo-saint", "Medicament4", 20.000, 5, 2, lot2, fournisseur);
 
-    Medicament medoc1, medoc2, medoc3, medoc4;
-    initMedicament(&medoc1);
-    sprintf(medoc1.nomM, "Medicament1");
-    initMedicament(&medoc2);
-    sprintf(medoc2.nomM, "Medicament2");
-    initMedicament(&medoc3);
-    sprintf(medoc3.nomM, "Medicament3");
-    initMedicament(&medoc4);
-    sprintf(medoc4.nomM, "Medicament4");
-
-
-    List *maListe = initList();
-
-    insertItem(maListe, &medoc1);
-    insertItem(maListe, &medoc1);
+    List *maListe = initList(&medoc1);
     insertItem(maListe, &medoc2);
-    sprintf(medoc2.lt.ref, "C3PO");
-    insertItem(maListe, &medoc2);
-    insertItem(maListe, &medoc2);
-    insertItem(maListe, &medoc2);
+    insertItem(maListe, &medoc3);
+    insertItem(maListe, &medoc4);
+    insertItem(maListe, &medoc4);
+    insertItem(maListe, &medoc5);
     printDrugs(maListe);
-    
     // system("clear");
-
     // save(maListe);
-
-    // int choix=0, nbMED, nm, aa;
-
-
-
-    save(maListe);
-
     return 0;
 }

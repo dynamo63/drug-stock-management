@@ -7,7 +7,7 @@
 
 
 // Initie la liste chaînée
-List *initList()
+List *initList(Medicament *drug)
 {
     List *list = malloc(sizeof(*list));
     Item *item = malloc(sizeof(*item));
@@ -17,9 +17,9 @@ List *initList()
         exit(EXIT_FAILURE);
     }
 
-    Medicament medoc;
-    initMedicament(&medoc);
-    item->medicament = medoc;
+    // Medicament medoc;
+    // initMedicament(&medoc);
+    item->medicament = *drug;
     item->next = NULL;
     list->first = item;
 

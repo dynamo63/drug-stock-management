@@ -2,20 +2,16 @@
 #define MINI_PROJET_H_INCLUDED
 
 typedef struct{
-
     int jr;
     int mo;
     int an;
 }Date;
 
 typedef struct{
-
     char ref[10];
     Date dtf;
     Date dtp;
 }Lot;
-
-
 
 typedef struct {
 
@@ -41,9 +37,13 @@ typedef struct{
 int menu();
 
 void initDate(Date *date);
+Date createDate(int jr, int mo, int an);
 void initLot(Lot *lot);
+Lot createLot(char ref[], Date dtf, Date dtp);
 void initFournisseur(Fournisseur *fr);
+Fournisseur createFournisseur(int tel, char adr[], char nomF[]);
 void initMedicament(Medicament *drug);
+Medicament createDrug(char labnomM[], char nomM[], float px, int QStock, int S_stc, Lot lt, Fournisseur fr);
 void initId();
 
 #endif // MINI_PROJET_H_INCLUDED

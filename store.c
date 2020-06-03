@@ -63,10 +63,52 @@ void initMedicament(Medicament *drug){
     initFournisseur(&fr);
     drug->lt = lt;
     drug->fr = fr;
-
     id++;
 }
 
+Medicament createDrug(char lab[], char nomM[], float px, int QStock, int S_stc, Lot lt, Fournisseur fr){
+    // drug->numM = numM;
+    Medicament *drug = malloc(sizeof(*drug));
+    drug->numM = id;
+    strcpy(drug->lab, lab);
+    strcpy(drug->nomM, nomM);
+    drug->px = px;
+    drug->Qstock = QStock;
+    drug->S_stc = S_stc;
+    drug->lt = lt;
+    drug->fr = fr;
+    id++;
+    return *drug;
+}
+
+// Retourne un la date créé
+Date createDate(int jr, int mo, int an){
+    Date *date = malloc(sizeof(*date));
+    date->an = 2020;
+    date->jr = 1;
+    date->mo = 1;
+    return *date;
+}
+
+// Retourne le lot créé
+Lot createLot(char ref[], Date dtf, Date dtp){
+    Lot *lot = malloc(sizeof(*lot));
+    strcpy(lot->ref, ref);
+    lot->dtf = dtf;
+    lot->dtp = dtp;
+    return *lot;
+}
+
+// Retourne le fournisseur créé
+Fournisseur createFournisseur(int tel, char adr[], char nomF[]){
+    Fournisseur *fr = malloc(sizeof(*fr));
+    fr->tel = tel;
+    strcpy(fr->adr, adr);
+    strcpy(fr->nomF, nomF);
+    return *fr;
+}
+
+// Initie l'identifiant
 void initId() {
     FILE *folder = NULL;
 
