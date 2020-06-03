@@ -44,6 +44,24 @@ int containItem(List *list, Medicament drug){
         return false;
     }
 }
+// Vérifie si la liste contient déja le médicament
+int containRefLot(List *list, Medicament drug){
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    Item *actuel = list->first;
+    while(actuel != NULL && *actuel->medicament.lt.ref != *drug.lt.ref){
+        actuel = actuel->next;
+    }
+    
+    if(actuel != NULL){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 
 // Insère un Medicament en début de liste
 void insertItem(List *list, Medicament *drug)
@@ -54,14 +72,27 @@ void insertItem(List *list, Medicament *drug)
     {
         exit(EXIT_FAILURE);
     }
-    if(containItem(list, *drug)){
-        
-        
+    if(containItem(list, *drug) && containRefLot(list, *drug)){
+        listIncrement(list, *drug);
     }else{
         new->medicament = *drug;
         /* Insertion de l'élément au début de la list */
         new->next = list->first;
         list->first = new;
+    }
+}
+
+void listIncrement(List *list, Medicament drug){
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+    Item *actuel = list->first;
+    while(actuel != NULL && actuel->medicament.numM != drug.numM){
+        actuel = actuel->next;
+    }
+    if(actuel != NULL){
+        actuel->medicament.Qstock = actuel->medicament.Qstock + 1;
     }
 }
 
@@ -102,39 +133,46 @@ void printDrugs(List *list)
     }
 }
 
+
 Medicament getDrugById(List *list, int id){
-    if(list == NULL){
+    if(list == NULL)
         exit(EXIT_FAILURE);
-    }
 
     Item *actuel  = list->first;
 
     while (actuel != NULL && actuel->medicament.numM != id){
         actuel = actuel->next;
     }
-    if(actuel == NULL){
-        exit(EXIT_FAILURE);
-    }else{
-        return actuel->medicament;
+
+    if(actuel == NULL)
+    {
+        Medicament drug;
+        initMedicament(&drug);
+        return drug;
     }
+    else
+        return actuel->medicament;
     
 }
 
 Medicament getDrugByName(List *list, char name){
-    if(list == NULL){
+    if(list == NULL)
         exit(EXIT_FAILURE);
-    }
 
     Item *actuel  = list->first;
 
-    while (actuel != NULL && actuel->medicament.nomM != name){
+    while (actuel != NULL && actuel->medicament.nomM != &name){
         actuel = actuel->next;
     }
-    if(actuel == NULL){
-        exit(EXIT_FAILURE);
-    }else{
-        return actuel->medicament;
+
+    if(actuel == NULL)
+    {
+        Medicament drug;
+        initMedicament(&drug);
+        return drug;
     }
+    else
+        return actuel->medicament;
     
 }
     

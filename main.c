@@ -11,23 +11,29 @@ int main(int argc, char *argv[]){
 
     Medicament medoc1, medoc2, medoc3, medoc4;
     initMedicament(&medoc1);
+    sprintf(medoc1.nomM, "Medicament1");
     initMedicament(&medoc2);
+    sprintf(medoc2.nomM, "Medicament2");
     initMedicament(&medoc3);
+    sprintf(medoc3.nomM, "Medicament3");
     initMedicament(&medoc4);
+    sprintf(medoc4.nomM, "Medicament4");
 
 
     List *maListe = initList();
 
     insertItem(maListe, &medoc1);
+    insertItem(maListe, &medoc1);
     insertItem(maListe, &medoc2);
-    sprintf(medoc2.lt.ref, "001");
+    sprintf(medoc2.lt.ref, "C3PO");
     insertItem(maListe, &medoc2);
-    printf("%s\n", medoc2.lt.ref);
     insertItem(maListe, &medoc2);
     insertItem(maListe, &medoc2);
     printDrugs(maListe);
     
     // system("clear");
+
+    // save(maListe);
 
     // int choix=0, nbMED, nm, aa;
 

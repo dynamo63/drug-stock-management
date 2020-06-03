@@ -1,0 +1,4 @@
+1	Medicament2	Lab0	C3PO	1/1/2020	0.000000	3
+1	Medicament2	Lab0	Lot0	1/1/2020	0.000000	1
+0	Medicament1	Lab0	Lot0	1/1/2020	0.000000	2
+4	Medicament0	Lab0	Lot0	1/1/2020	0.000000	1

@@ -17,7 +17,9 @@ struct List
 };
 
 List *initList();
-int issetItem(List *list, Medicament drug);
+int containItem(List *list, Medicament drug);
+int containRefLot(List *list, Medicament drug);
+void listIncrement(List *list, Medicament drug);
 void insertItem(List *list, Medicament *drug);
 void deleteItem(List *list);
 void printDrugs(List *list);
@@ -27,5 +29,4 @@ char *displayDrug(const Medicament *drug, char *buffer);
 
 // Sauvegarde la liste dans fichier FMED.txt
 void save(List *list);
-
 #endif
