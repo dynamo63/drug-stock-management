@@ -14,11 +14,18 @@ typedef struct{
 }Lot;
 
 typedef struct {
-
     char nomF[20];
     char adr[30];
     int tel;
 }Fournisseur;
+
+typedef struct {
+    Fournisseur f1;
+    Fournisseur f1;
+    Fournisseur f3;
+    Fournisseur f4;
+    Fournisseur f5;
+}FournisseurList;
 
 typedef struct{
 
@@ -29,7 +36,7 @@ typedef struct{
     int Qstock;
     int S_stc;
     Lot lt;
-    Fournisseur fr;
+    FournisseurList frs;
 
 }Medicament;
 
@@ -43,8 +50,7 @@ Lot createLot(char ref[], Date dtf, Date dtp);
 void initFournisseur(Fournisseur *fr);
 Fournisseur createFournisseur(int tel, char adr[], char nomF[]);
 void initMedicament(Medicament *drug);
-Medicament createDrug(char labnomM[], char nomM[], float px, int QStock, int S_stc, Lot lt, Fournisseur fr);
+Medicament createDrug(char labnomM[], char nomM[], float px, int QStock, int S_stc, Lot lt, FournisseurList frs);
 void initId();
-
 #endif // MINI_PROJET_H_INCLUDED
 

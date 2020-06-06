@@ -7,7 +7,7 @@
 
 
 // Initie la liste chaînée
-List *initList(Medicament *drug)
+List *initListDrug(Medicament *drug)
 {
     List *list = malloc(sizeof(*list));
     Item *item = malloc(sizeof(*item));
@@ -63,6 +63,7 @@ int containRefLot(List *list, Medicament drug){
 }
 
 
+
 // Insère un Medicament en début de liste
 void insertItem(List *list, Medicament *drug)
 {
@@ -82,6 +83,7 @@ void insertItem(List *list, Medicament *drug)
     }
 }
 
+//Incrémente un médicament dans la liste
 void listIncrement(List *list, Medicament drug){
     if (list == NULL)
     {
@@ -123,7 +125,9 @@ void printDrugs(List *list)
 
     Item *current = list->first;
 
-    printf("""---------------------------------------------------------------------------------------------------------------------------\nNum\tNom\t\tLab\tRefLot\tDate Préemption\tPrix\t\tQuantité\n---------------------------------------------------------------------------------------------------------------------------\n""");
+    printf("---------------------------------------------------------------------------------------------------------------------------");
+    printf("\nNum\tNom\tLab\tRefLot\tDate Préemption\tPrix\tQuantité\n");
+    printf("---------------------------------------------------------------------------------------------------------------------------\n");
 
     while (current != NULL)
     {
@@ -133,7 +137,68 @@ void printDrugs(List *list)
     }
 }
 
+// Afiche la liste des médicaments en repture de stock
+void printDrugsOff(List *list)
+{
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
 
+    Item *current = list->first;
+
+    printf("---------------------------------------------------------------------------------------------------------------------------");
+    printf("\nNum\tNom\tLab\tRefLot\tDate Préemption\tPrix\tQuantité\n");
+    printf("---------------------------------------------------------------------------------------------------------------------------\n");
+
+    while (current != NULL)
+    {
+        char buffer[200];
+        if(current->medicament.Qstock == 0){
+            printf("%s", displayDrug(&current->medicament, buffer));
+        }
+        current = current->next;
+    }
+}
+
+// Afiche la liste des médicaments commençant par un nom
+void printDrugsWithName(List *list, char *name)
+{
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    Item *current = list->first;
+
+    printf("---------------------------------------------------------------------------------------------------------------------------");
+    printf("\nNum\tNom\tLab\tRefLot\tDate Préemption\tPrix\tQuantité\n");
+    printf("---------------------------------------------------------------------------------------------------------------------------\n");
+    while (current != NULL){
+        char buffer[200];
+        if(startWith(current->medicament.nomM, name)){
+            printf("%s", displayDrug(&current->medicament, buffer));
+        }
+        current = current->next;
+    }
+}
+
+//  Vérifie sous la chaine commence par la sous-chaine
+int startWith(char *string, char *subString){
+    int sousChainePointer;
+    if(strstr(string, subString) != NULL){
+        sousChainePointer = *(strstr(string, subString));
+        if(*string == sousChainePointer){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
+
+// Retourne un Médicament grace à son numéro
 Medicament getDrugById(List *list, int id){
     if(list == NULL)
         exit(EXIT_FAILURE);
@@ -155,13 +220,13 @@ Medicament getDrugById(List *list, int id){
     
 }
 
-Medicament getDrugByName(List *list, char name){
+// Retourne un Médicament grace à son nom
+Medicament getDrugByName(List *list, char *name){
     if(list == NULL)
         exit(EXIT_FAILURE);
 
     Item *actuel  = list->first;
-
-    while (actuel != NULL && actuel->medicament.nomM != &name){
+    while (actuel != NULL && strcmp(actuel->medicament.nomM, name) != 0){
         actuel = actuel->next;
     }
 
@@ -176,6 +241,7 @@ Medicament getDrugByName(List *list, char name){
     
 }
     
+//  Affiche les informations sur un médicament
 char *displayDrug(const Medicament *drug, char *buffer){
     char dateFormated[40];
     sprintf(dateFormated, "%d/%d/%d", drug->lt.dtp.jr, drug->lt.dtp.mo, drug->lt.dtp.an);
@@ -184,6 +250,7 @@ char *displayDrug(const Medicament *drug, char *buffer){
     return buffer;
 }
 
+//Sauvegarde le fichier dans le liste de fichier
 void save(List *list) {
     if (list == NULL)
         exit(EXIT_FAILURE);
@@ -211,4 +278,34 @@ void save(List *list) {
 
     
     fclose(folderFMED);
+}
+
+// Ajoute un médicament à la liste
+void ajouterMed(List *list){
+    Medicament *tempMedicament = malloc(sizeof(*tempMedicament));
+    printf("Nom:");
+    scanf("%s", tempMedicament->nomM);
+    printf("Laboratoire:");
+    scanf("%s", tempMedicament->lab);
+    printf("Reférence du lot:");
+    scanf("%s", tempMedicament->lt.ref);
+    printf("Numéro du secteur de stockage:");
+    scanf("%d", &tempMedicament->S_stc);
+    printf("Quantité du médicament à ajouter:");
+    scanf("%d", &tempMedicament->Qstock);
+    printf("\n---Date de fabrication---\n\n");
+    printf("Jour de fabrication:");
+    scanf("%d", &tempMedicament->lt.dtf.jr);
+    printf("Mois de fabrication:");
+    scanf("%d", &tempMedicament->lt.dtf.mo);
+    printf("Année de fabrication:");
+    scanf("%d", &tempMedicament->lt.dtf.an);
+    printf("\n---Date de peremption---\n\n");
+    printf("Jour de peremption:");
+    scanf("%d", &tempMedicament->lt.dtf.jr);
+    printf("Mois de peremption:");
+    scanf("%d", &tempMedicament->lt.dtp.mo);
+    printf("Année de peremption:");
+    scanf("%d", &tempMedicament->lt.dtp.an);
+    insertItem(list, tempMedicament);
 }
