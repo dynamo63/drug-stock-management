@@ -12,20 +12,20 @@ static int id = 0;
 int menu(void)
 {
     int choix = 0;
-    printf("\n\n---menu---\n\n");
-    printf(" 1:  Ajouter un nouveau medicament\n\n");
-    printf(" 2:  afficher le numero d'un medicament (saisir le nom ):\n\n");
-    printf(" 3:  afficher la liste de medicaments en stock:\n\n");
-    printf(" 4:  afficher les informations d'un medicament grace a son numero:\n\n");
-    printf(" 5:  afficher la liste de medicament dont le nom commence par une chaine donnee: \n\n");
-    printf(" 6:  afficher tous les medicaments en rupture de stock: \n\n");
-    printf(" 7:  afficher la quantite disponible d'un medicament: \n\n");
-    printf(" 8:  afficher tous les fournisseurs d'un medicament: \n\n");
-    printf(" 9:  servir une ordonnance: \n\n");
-    printf(" 1O: afficher les medicaments perimes: \n\n");
-    printf(" 11: supprimer un medicament: \n\n");
-    printf(" 12: sauvegarder la liste de medicament dans un fichier --FMED--\n\n");
-    printf(" 0:  quitter\n\n");
+    printf("\n---menu---\n");
+    printf(" 1:  Ajouter un nouveau medicament\n");
+    printf(" 2:  afficher le numero d'un medicament (saisir le nom ):\n");
+    printf(" 3:  afficher la liste de medicaments en stock:\n");
+    printf(" 4:  afficher les informations d'un medicament grace a son numero:\n");
+    printf(" 5:  afficher la liste de medicament dont le nom commence par une chaine donnee: \n");
+    printf(" 6:  afficher tous les medicaments en rupture de stock: \n");
+    printf(" 7:  afficher la quantite disponible d'un medicament: \n");
+    printf(" 8:  afficher tous les fournisseurs d'un medicament: \n");
+    printf(" 9:  servir une ordonnance: \n");
+    printf(" 1O: afficher les medicaments perimes: \n");
+    printf(" 11: supprimer un medicament: \n");
+    printf(" 12: sauvegarder la liste de medicament dans un fichier --FMED--\n");
+    printf(" 0:  quitter\n");
     printf("Tapez un numero de 1 a 12 ou 0 pour quitter:");
     scanf("%d",&choix);
     return choix;
@@ -62,15 +62,11 @@ void initMedicament(Medicament *drug){
     Fournisseur fr;
     initLot(&lt);
     initFournisseur(&fr);
-    FournisseurList frs;
-    frs.f1 = fr;
     drug->lt = lt;
-    drug->frs = frs;
     id++;
 }
 
-Medicament createDrug(char lab[], char nomM[], float px, int QStock, int S_stc, Lot lt, FournisseurList frs){
-    // drug->numM = numM;
+Medicament createDrug(char lab[], char nomM[], float px, int QStock, int S_stc, Lot lt){
     Medicament *drug = malloc(sizeof(*drug));
     drug->numM = id;
     strcpy(drug->lab, lab);
@@ -79,7 +75,12 @@ Medicament createDrug(char lab[], char nomM[], float px, int QStock, int S_stc, 
     drug->Qstock = QStock;
     drug->S_stc = S_stc;
     drug->lt = lt;
-    drug->frs = frs;
+    Fournisseur tempFournisseur = createFournisseur(0, "NULL", "NULL");
+    drug->fr1 = tempFournisseur;
+    drug->fr2 = tempFournisseur;
+    drug->fr3 = tempFournisseur;
+    drug->fr4 = tempFournisseur;
+    drug->fr5 = tempFournisseur;
     id++;
     return *drug;
 }
@@ -112,7 +113,7 @@ Fournisseur createFournisseur(int tel, char adr[], char nomF[]){
 }
 
 // Initie l'identifiant
-void initId() {
+int initId() {
     FILE *folder = NULL;
 
     folder = fopen("db/id.txt","r");
@@ -123,10 +124,28 @@ void initId() {
     char value[MAX_ID] = "";
     fgets(value, MAX_ID, folder);
 
-    if(strcmp(value,""))
+    if(strcmp(value,"")){
         id = atoi(value);
-    else
+        return id;
+    }
+    else{
         printf("%s", value);
+        return -1;
+    }
 
     fclose(folder);
+}
+
+// Affiche les fournisseurs d'un médicament
+void  printProvider(Medicament *drug){
+    if(strcmp(drug->fr1.nomF, "NULL") != 0)
+        printf("Fournisseur1: %s\n", drug->fr1.nomF);
+    if(strcmp(drug->fr2.nomF, "NULL") != 0)
+        printf("Fournisseur2: %s\n", drug->fr2.nomF);
+    if(strcmp(drug->fr3.nomF, "NULL") != 0)
+        printf("Fournisseur3: %s\n", drug->fr3.nomF);
+    if(strcmp(drug->fr4.nomF, "NULL") != 0)
+        printf("Fournisseur4: %s\n", drug->fr2.nomF);
+    if(strcmp(drug->fr5.nomF, "NULL") != 0)
+        printf("Fournisseur5: %s\n", drug->fr5.nomF);
 }

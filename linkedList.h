@@ -10,28 +10,14 @@ struct Item
     Item *next;
 };
 
-// Liste des fournissueurs
-typedef struct ItemProvider ItemProvider;
-struct Item
-{
-    Fournisseur provider;
-    Item *next;
-};
-
-
-typedef struct ListProvider ListProvider;
-struct ListProvider
-{
-    ItemProvider *first;
-};
-
 typedef struct List List;
 struct List
 {
     Item *first;
 };
 
-List *initListDrug(Medicament *drug);
+List *initList(Medicament *drug);
+List *initListByFile(Medicament *drug, FILE *FMED);
 int containItem(List *list, Medicament drug);
 int containRefLot(List *list, Medicament drug);
 void listIncrement(List *list, Medicament drug);
@@ -43,7 +29,9 @@ void printDrugsWithName(List *list, char *name);
 Medicament getDrugById(List *list, int id);
 Medicament getDrugByName(List *list, char *name);
 char *displayDrug(const Medicament *drug, char *buffer);
+char *displayDrugAll(const Medicament *drug, char *buffer);
 int startWith(char *string, char *subString);
+
 
 // Sauvegarde la liste dans fichier FMED.txt
 void save(List *list);
