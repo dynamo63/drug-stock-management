@@ -14,19 +14,19 @@ int menu(void)
     int choix = 0;
     printf("\n---menu---\n");
     printf(" 1:  Ajouter un nouveau medicament\n");
-    printf(" 2:  afficher le numero d'un medicament (saisir le nom ):\n");
-    printf(" 3:  afficher la liste de medicaments en stock:\n");
-    printf(" 4:  afficher les informations d'un medicament grace a son numero:\n");
-    printf(" 5:  afficher la liste de medicament dont le nom commence par une chaine donnee: \n");
-    printf(" 6:  afficher tous les medicaments en rupture de stock: \n");
-    printf(" 7:  afficher la quantite disponible d'un medicament: \n");
-    printf(" 8:  afficher tous les fournisseurs d'un medicament: \n");
-    printf(" 9:  servir une ordonnance: \n");
-    printf(" 1O: afficher les medicaments perimes: \n");
-    printf(" 11: supprimer un medicament: \n");
-    printf(" 12: sauvegarder la liste de medicament dans un fichier --FMED--\n");
-    printf(" 0:  quitter\n");
-    printf("Tapez un numero de 1 a 12 ou 0 pour quitter:");
+    printf(" 2:  Afficher le numero d'un medicament (saisir le nom)\n");
+    printf(" 3:  Afficher la liste de medicaments en stock\n");
+    printf(" 4:  Afficher les informations d'un medicament grace a son numero\n");
+    printf(" 5:  Afficher la liste de medicament dont le nom commence par une chaine donnee\n");
+    printf(" 6:  Afficher tous les medicaments en rupture de stock\n");
+    printf(" 7:  Afficher la quantite disponible d'un medicament\n");
+    printf(" 8:  Afficher tous les fournisseurs d'un medicament\n");
+    printf(" 9:  Servir une ordonnance\n");
+    printf(" 1O: Afficher les medicaments perimes\n");
+    printf(" 11: Supprimer un medicament\n");
+    printf(" 12: Sauvegarder la liste de medicament dans un fichier --FMED--\n");
+    printf(" 0:  Quitter\n");
+    printf("Tapez un numero entre 1 a 12 ou 0 pour quitter:");
     scanf("%d",&choix);
     return choix;
 }
@@ -67,6 +67,7 @@ void initMedicament(Medicament *drug){
 }
 
 Medicament createDrug(char lab[], char nomM[], float px, int QStock, int S_stc, Lot lt){
+
     Medicament *drug = malloc(sizeof(*drug));
     drug->numM = id;
     strcpy(drug->lab, lab);
@@ -88,9 +89,9 @@ Medicament createDrug(char lab[], char nomM[], float px, int QStock, int S_stc, 
 // Retourne un la date créé
 Date createDate(int jr, int mo, int an){
     Date *date = malloc(sizeof(*date));
-    date->an = 2020;
-    date->jr = 1;
-    date->mo = 1;
+    date->an = an;
+    date->mo = mo;
+    date->jr = jr;
     return *date;
 }
 

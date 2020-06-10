@@ -1,37 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "linkedList.h"
 #include "store.h"
 #include <string.h>
-#include "linkedList.h"
 #include <stdbool.h>
 
 
 int main(int argc, char *argv[]){
     initId();
     Date datetf = createDate(3,3,2017);
-    Date datetp = createDate(3,3,2022);
-    Lot lot = createLot("Lot-saint", datetf, datetp), lot2 = createLot("Lot2", datetf, datetp);
-    // Fournisseur fournisseur1 = createFournisseur(91611135, "Laboratoire PERFECT-LABO", "Perfect");
-    // Fournisseur fournisseur2 = createFournisseur(91611135, "Laboratoire Lamboni-LABO", "Lamboni");
-    Medicament medoc1 = createDrug("labo-saint", "Albert", 20.000, 0, 2, lot);
-    // Medicament medoc2 = createDrug("labo-saint", "Albertine", 20.000, 1, 2, lot);
-    // Medicament medoc3 = createDrug("labo-saint", "Thérésa", 20.000, 1, 2, lot);
-    // Medicament medoc4 = createDrug("labo-saint", "Clémentine", 20.000, 1, 2, lot);
-    // medoc4.fr1 = fournisseur2;
+    Date datetp = createDate(3,3,2025);
+    Date datetp2 = createDate(9,6,2020);
+    Lot lot = createLot("Lot-saint", datetf, datetp), lot2 = createLot("Lot2", datetf, datetp2);
+    Fournisseur fournisseur1 = createFournisseur(91611135, "Laboratoire PERFECT-LABO", "Perfect");
+    Fournisseur fournisseur2 = createFournisseur(91611135, "Laboratoire Lamboni-LABO", "Lamboni");
+    Medicament medoc1 = createDrug("labo-saint", "Albert", 20.000, 10, 2, lot);
+    Medicament medoc2 = createDrug("labo-saint", "Albertine", 20.000, 10, 2, lot2);
+    Medicament medoc3 = createDrug("labo-saint", "Thérésa", 20.000, 10, 2, lot);
+    Medicament medoc4 = createDrug("labo-saint", "Clémentine", 20.000, 10, 2, lot2);
+    medoc4.fr1 = fournisseur2;
     List *maListe = initList(&medoc1);
-    // insertItem(maListe, &medoc2);
-    // insertItem(maListe, &medoc3);
-    // insertItem(maListe, &medoc4);
+    insertItem(maListe, &medoc2);
+    insertItem(maListe, &medoc3);
+    insertItem(maListe, &medoc4);
     
     
     int choix = -1, nbMED;
     char drugName[20], buffer[200];
     Medicament tempDrug;
+    system("clear");
     while(choix){
         switch(choix){
             case(0):
                 printf("Good Bye\n");
                 break;
+
             case(1):
                 printf("[Ajouter un nouveau medicament]\n\n");
                 printf("\nCombien de médicament à ajouter?:");
@@ -99,6 +102,7 @@ int main(int argc, char *argv[]){
                     printf("La quantité restante du médicament %s est %d\n", tempDrug.nomM, tempDrug.Qstock);
                 }
                 break;
+
             case(8):
                 printf("\n[Affichage des fournisseurs d'un medicament]\n");
                 printf("Veiller saisir le numero du medicament: ");
@@ -111,6 +115,29 @@ int main(int argc, char *argv[]){
                     printf("[Liste des fournisseur du médicament %s]\n", tempDrug.nomM);
                     printProvider(&tempDrug);
                 }
+                break;
+
+            case(9):
+                printf("\n[Affichage de la liste de medicaments en stock]\n");
+                printDrugs(maListe);
+                printf("\nServir une ordonnance:\n");
+                servePrescription(maListe);
+                break;
+
+            case(10):
+                printf("\n[Affichage des medicaments périmés]\n");
+                printExpiredDrugs(maListe);
+                printf("\n");
+                break;
+
+            case(11):
+                printf("\n[Affichage de la liste de medicaments en stock]\n");
+                printDrugs(maListe);
+                printf("\n[Supression d'un medicament grace a son numero]\n");
+                printf("Veuiller saisir le numero du medicament: ");
+                scanf("%d",&nbMED);
+                deleteItem(maListe, nbMED);
+                printf("\n");
                 break;
 
             case(12):

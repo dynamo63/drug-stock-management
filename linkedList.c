@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <stdbool.h>
 #include "store.h"
 #include "linkedList.h"
@@ -54,7 +55,7 @@ int containItem(List *list, Medicament drug){
     }
     Item *actuel = list->first;
 
-    while(actuel != NULL && actuel->medicament.numM != drug.numM){
+    while(actuel != NULL && (strcmp(actuel->medicament.nomM , drug.nomM) != 0) ){
         actuel = actuel->next;
     }
     
@@ -71,7 +72,7 @@ int containRefLot(List *list, Medicament drug){
         exit(EXIT_FAILURE);
     }
     Item *actuel = list->first;
-    while(actuel != NULL && *actuel->medicament.lt.ref != *drug.lt.ref){
+    while(actuel != NULL && (strcmp(actuel->medicament.lt.ref, drug.lt.ref) != 0)){
         actuel = actuel->next;
     }
     
@@ -85,7 +86,6 @@ int containRefLot(List *list, Medicament drug){
 // Insère un Medicament en début de liste
 void insertItem(List *list, Medicament *drug)
 {
-    printf("J'insère le médicament %s\n", drug->nomM);
     /* Création du nouvel élément */
     Item *new = malloc(sizeof(*new));
     if (list == NULL || new == NULL)
@@ -116,23 +116,6 @@ void listIncrement(List *list, Medicament drug){
         actuel->medicament.Qstock = actuel->medicament.Qstock + 1;
     }
 }
-
-// Suprime le premier élément de la liste
-void deleteItem(List *list)
-{
-    if (list == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    if (list->first != NULL)
-    {
-        Item *aSupprimer = list->first;
-        list->first = list->first->next;
-        free(aSupprimer);
-    }
-}
-
 
 // Afiche la liste des médicaments
 void printDrugs(List *list)
@@ -315,14 +298,14 @@ void save(List *list) {
 
     do{
         char buffer[200];
-        fprintf(folderFMED,"%s", displayDrugAll(&item->medicament, buffer));
+        fprintf(folderFMED,"%s", displayDrug(&item->medicament, buffer));
         item = item->next;
     }while (item->next != NULL);
 
     // Sauvegarde du dernier item ainsi que l'id
     char buf[200];
-    fprintf(folderFMED,"%s", displayDrugAll(&item->medicament, buf));
-    fprintf(folderID, "%d", item->medicament.numM);
+    fprintf(folderFMED,"%s", displayDrug(&item->medicament, buf));
+    fprintf(folderID, "%d", list->first->medicament.numM);
 
     
     fclose(folderFMED);
@@ -334,49 +317,40 @@ void ajouterMed(List *list){
     Medicament *tempMedicament = malloc(sizeof(*tempMedicament));
     tempMedicament->numM = initId();
     int nombreFournisseur;
-    // printf("Nom: ");
-    // scanf("%s", tempMedicament->nomM);
-    // printf("Laboratoire: ");
-    // scanf("%s", tempMedicament->lab);
-    // printf("Prix du medicament: ");
-    // scanf("%d", tempMedicament->px);
-    // printf("Reférence du lot: ");
-    // scanf("%s", tempMedicament->lt.ref);
-    // printf("Numéro du secteur de stockage: ");
-    // scanf("%d", &tempMedicament->S_stc);
-    // printf("Quantité du médicament à ajouter: ");
-    // scanf("%d", &tempMedicament->Qstock);
-    // printf("\n---Date de fabrication---\n\n");
-    // printf("Jour de fabrication: ");
-    // scanf("%d", &tempMedicament->lt.dtf.jr);
-    // printf("Mois de fabrication: ");
-    // scanf("%d", &tempMedicament->lt.dtf.mo);
-    // printf("Année de fabrication: ");
-    // scanf("%d", &tempMedicament->lt.dtf.an);
-    // printf("\n---Date de peremption---\n\n");
-    // printf("Jour de peremption: ");
-    // scanf("%d", &tempMedicament->lt.dtf.jr);
-    // printf("Mois de peremption: ");
-    // scanf("%d", &tempMedicament->lt.dtp.mo);
-    // printf("Année de peremption: ");
-    // scanf("%d", &tempMedicament->lt.dtp.an);
-    // insertItem(list, tempMedicament);
-    // printf("Nombre de fournisseur: ");
-    // scanf("%d", &nombreFournisseur);
+    printf("Nom: ");
+    scanf("%s", tempMedicament->nomM);
+    printf("Laboratoire: ");
+    scanf("%s", tempMedicament->lab);
+    printf("Prix du medicament: ");
+    scanf("%f", &tempMedicament->px);
+    printf("Reférence du lot: ");
+    scanf("%s", tempMedicament->lt.ref);
+    printf("Numéro du secteur de stockage: ");
+    scanf("%d", &tempMedicament->S_stc);
+    printf("Quantité du médicament à ajouter: ");
+    scanf("%d", &tempMedicament->Qstock);
+    printf("\n---Date de fabrication---\n\n");
+    printf("Jour de fabrication: ");
+    scanf("%d", &tempMedicament->lt.dtf.jr);
+    printf("Mois de fabrication: ");
+    scanf("%d", &tempMedicament->lt.dtf.mo);
+    printf("Année de fabrication: ");
+    scanf("%d", &tempMedicament->lt.dtf.an);
+    printf("\n---Date de peremption---\n\n");
+    printf("Jour de peremption: ");
+    scanf("%d", &tempMedicament->lt.dtp.jr);
+    printf("Mois de peremption: ");
+    scanf("%d", &tempMedicament->lt.dtp.mo);
+    printf("Année de peremption: ");
+    scanf("%d", &tempMedicament->lt.dtp.an);
+    printf("Nombre de fournisseur: ");
+    scanf("%d", &nombreFournisseur);
 
+    Date datetf = createDate(tempMedicament->lt.dtf.jr,tempMedicament->lt.dtf.mo,tempMedicament->lt.dtf.an);
+    Date datetp = createDate(tempMedicament->lt.dtp.jr, tempMedicament->lt.dtp.mo, tempMedicament->lt.dtp.an);
+    printf("\nLa quatité est %d\n", tempMedicament->Qstock);
+    Medicament drug = createDrug(tempMedicament->lab, tempMedicament->nomM, tempMedicament->px, tempMedicament->Qstock, tempMedicament->S_stc, tempMedicament->lt);
     
-
-    // Date datetf = createDate(tempMedicament->lt.dtf.jr,tempMedicament->lt.dtf.mo,tempMedicament->lt.dtf.an);
-    // Date datetp = createDate(tempMedicament->lt.dtp.jr, tempMedicament->lt.dtp.mo, tempMedicament->lt.dtp.an);
-    // Lot lot = createLot(tempMedicament->lt.ref, datetf, datetp);
-    // Medicament drug = createDrug(tempMedicament->lab, tempMedicament->nomM, tempMedicament->px, tempMedicament->Qstock, tempMedicament->S_stc, tempMedicament->lt);
-
-    Date datetf = createDate(3,3,2017);
-    Date datetp = createDate(3,3,2022);
-    Lot lot = createLot("Lot-saint", datetf, datetp), lot2 = createLot("Lot2", datetf, datetp);
-    Medicament drug = createDrug("labo-saint", "test", 20.000, 0, 2, lot);
-    nombreFournisseur = 1;
-
     if(nombreFournisseur > 0){
         printf("Nom du fournisseur 1: ");
         scanf("%s", drug.fr1.nomF);
@@ -418,7 +392,132 @@ void ajouterMed(List *list){
         scanf("%d", &drug.fr5.tel);
     }
 
-    printf("Le fournisseur 1 est %s", drug.fr1.nomF);
-    
+    printf("\nLa quantité du medoc est %d\n", drug.Qstock);
     insertItem(list, &drug);
+}
+
+//Permet de servir une ordonance
+void servePrescription(List *list){
+    List *MedocsList;
+    int nbMedocs, idMedoc, nbMedoc, erreur = 0;
+    double total = 0;
+    Medicament tempMedicament;
+    printf("\nCombien de medicament le client achète t'il?: ");
+    scanf("%d", &nbMedocs);
+    for(int i=1; i<=nbMedocs; i++){
+        printf("\nNuméro du médicament %d : ", i);
+        scanf("%d", &idMedoc);
+        tempMedicament = getDrugById(list, idMedoc);
+        if(strcmp(tempMedicament.nomM, "MedicamentNull") == 0){
+            printf("\nMedicament inconu");
+            erreur = 1;
+            break;
+        }
+        printf("\nQuatité à acheter: ");
+        scanf("%d", &nbMedoc);
+        if(tempMedicament.Qstock < nbMedoc){
+            printf("\nLa quantité demandé est supérieur à la quantité disponible");
+            erreur = 1;
+            break;
+        }
+        tempMedicament.Qstock = nbMedoc;
+        if(i==1){   //Si on est au premier tour on inicie la liste avec le médicament
+            MedocsList = initList(&tempMedicament);
+        }else{  //Sinon on ajoute le médicament
+            insertItem(MedocsList, &tempMedicament);
+        }
+    }
+    if(erreur == 1){
+        printf("\nUne erreur s'est produite veuillez resaisir l'ordonnance!");
+    }else{
+        system("clear");
+        printf("Ordonnance:\n");
+        printf("-----------------------------------------------");
+        printf("\nNum\tNom\tQuantité\tPrix Unitaire\n");
+        printf("-----------------------------------------------");
+        Item *actuel = MedocsList->first;
+        while(actuel != NULL){
+            printf("\n%d\t%s\t%d\t%f", actuel->medicament.numM, actuel->medicament.nomM, actuel->medicament.Qstock, actuel->medicament.px);
+            total = total + (actuel->medicament.Qstock * actuel->medicament.px);
+            Item *actuel2 = list->first;
+            while(actuel2 != NULL){
+                if(actuel->medicament.numM == actuel2->medicament.numM){
+                    actuel2->medicament.Qstock = actuel2->medicament.Qstock - actuel->medicament.Qstock;    //si on achète un médicament, on diminue sa quantité dans la
+                }
+                actuel2 = actuel2->next;
+            }
+            actuel = actuel->next;
+        }
+        printf("\n\n\t\t\tTOTAL: %f TND", total);
+    }
+}
+
+// Vérifie si un médicament est périmé
+int isExpired(Medicament *drug){
+    time_t now = time(NULL);
+    time(&now);
+    struct tm *local = localtime(&now);
+    int day = local->tm_mday, month = local->tm_mon + 1, year = local->tm_year + 1900, erreur;
+    if(drug->lt.dtp.an < year){
+            return true;
+        }else if(drug->lt.dtp.an == year){
+            if(drug->lt.dtp.mo < month){
+                return true;
+            }else if(drug->lt.dtp.mo == month){
+                if(drug->lt.dtp.jr <= day){
+                    return true;
+                }
+            }
+        }
+    return 0;
+}
+
+//Affiche les médicaments périmé
+void printExpiredDrugs(List *list){
+    Item *actuel = list->first;
+    system("clear");
+    printf("Affichage des medicaments périmes:\n");
+    printf("-----------------------------------------------");
+    printf("\nNom\tLot\tZone de stockage\tQuatité\n");
+    printf("-----------------------------------------------");
+    while(actuel != NULL){
+        if(isExpired(&actuel->medicament)){
+            printf("\n%s\t%s\t%d\t%d", actuel->medicament.nomM, actuel->medicament.lt.ref, actuel->medicament.S_stc, actuel->medicament.Qstock);
+        }
+        actuel = actuel->next;
+    }
+}
+
+// Suprime le premier élément de la liste
+void deleteItem(List *list, int id)
+{
+    if (list == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    Item *actuel = list->first, *prec;
+    int erreur = 0;
+    while(actuel != NULL){
+        if(actuel->medicament.numM == id){
+            if(isExpired(&actuel->medicament) || actuel->medicament.Qstock == 0){
+                prec->next = actuel->next;
+                free(actuel);
+                break;
+            }else{
+                erreur = 1;
+                printf("\nLe médicament ne peut être suprime");
+            }
+        }
+        prec = actuel;
+        actuel = actuel->next;
+    }
+
+    if(actuel == NULL){
+        if(!erreur){
+            printf("\nMedicament inconu");
+        }
+    }else{
+        printf("\nLe medicament numero %d a bien été suprime", id);
+    }
 }
