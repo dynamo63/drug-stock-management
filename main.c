@@ -8,25 +8,8 @@
 
 int main(int argc, char *argv[]){
     initId();
-    Date datetf = createDate(3,3,2017);
-    Date datetp = createDate(3,3,2025);
-    Date datetp2 = createDate(9,6,2020);
-    Lot lot = createLot("Lot-saint", datetf, datetp), lot2 = createLot("Lot2", datetf, datetp2);
-    Fournisseur fournisseur1 = createFournisseur(91611135, "Laboratoire PERFECT-LABO", "Perfect");
-    Fournisseur fournisseur2 = createFournisseur(91611135, "Laboratoire Lamboni-LABO", "Lamboni");
-    Medicament medoc1 = createDrug("labo-saint", "Albert", 20.000, 10, 2, lot);
-    Medicament medoc2 = createDrug("labo-saint", "Albertine", 20.000, 10, 2, lot2);
-    Medicament medoc3 = createDrug("labo-saint", "Thérésa", 20.000, 10, 2, lot);
-    Medicament medoc4 = createDrug("labo-saint", "Clémentine", 20.000, 10, 2, lot2);
-    medoc4.fr1 = fournisseur2;
-    medoc3.fr1 = fournisseur2;
-    List *maListe = initList(&medoc1);
-    insertItem(maListe, &medoc2);
-    insertItem(maListe, &medoc3);
-    insertItem(maListe, &medoc4);
     FILE *floderFMED = fopen("db/FMDED.txt", "r");
-    List *liste2 = initListByFile(floderFMED);
-    
+    List *maListe = initListByFile(floderFMED);
     
     int choix = -1, nbMED;
     char drugName[20], buffer[200];

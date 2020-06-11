@@ -37,17 +37,31 @@ List *initListByFile(FILE *FMED)
     int i=0;
     List *list = malloc(sizeof(*list));
     Item *item = malloc(sizeof(*item));
-    Medicament *drug;
+    Medicament drug;
+    char dateFormated[12], datefFormated[12], fr1Formated[40], fr2Formated[40], fr3Formated[40], fr4Formated[40], fr5Formated[40];
     signed char texte[256];
+    char buffer[200];
 
     if (list == NULL || item == NULL)
     {
         exit(EXIT_FAILURE);
     }
     while(fgets(texte, 255, fichier) != 0){
-        printf("%s\nj", texte);
+        sscanf(texte, "%d\t%s\t%s\t%s\t%s\t%s\t%f\t%d\t\t%s\t%s\t%s\t%s\t%s\n", &drug.numM, drug.nomM, drug.lab, drug.lt.ref, datefFormated, dateFormated, &drug.px, &drug.Qstock, fr1Formated, fr2Formated, fr3Formated, fr4Formated, fr5Formated);
+        sscanf(datefFormated, "%d/%d/%d", &drug.lt.dtf.jr, &drug.lt.dtf.mo, &drug.lt.dtf.an);
+        sscanf(dateFormated, "%d/%d/%d", &drug.lt.dtp.jr, &drug.lt.dtp.mo, &drug.lt.dtp.an);
+        sscanf(fr1Formated, "[%s--%s--%d]", drug.fr1.nomF, drug.fr1.adr, &drug.fr1.tel);
+        sscanf(fr2Formated, "[%s--%s--%d]", drug.fr2.nomF, drug.fr2.adr, &drug.fr2.tel);
+        sscanf(fr3Formated, "[%s--%s--%d]", drug.fr3.nomF, drug.fr3.adr, &drug.fr3.tel);
+        sscanf(fr4Formated, "[%s--%s--%d]", drug.fr4.nomF, drug.fr4.adr, &drug.fr4.tel);
+        sscanf(fr5Formated, "[%s--%s--%d]", drug.fr5.nomF, drug.fr5.adr, &drug.fr5.tel);
+        if(i==0){
+            list = initList(&drug);
+        }else{
+            insertItem(list, &drug);
+        }
+        i++;
     }
-    
     fclose(fichier);
     return list;
 }
@@ -324,13 +338,13 @@ void ajouterMed(List *list){
     tempMedicament->numM = getId();
     int nombreFournisseur;
     printf("Nom: ");
-    scanf("%s", tempMedicament->nomM);
+    scanf("%[^\n]", tempMedicament->nomM);
     printf("Laboratoire: ");
-    scanf("%s", tempMedicament->lab);
+    scanf("%[^\n]", tempMedicament->lab);
     printf("Prix du medicament: ");
     scanf("%f", &tempMedicament->px);
     printf("Reférence du lot: ");
-    scanf("%s", tempMedicament->lt.ref);
+    scanf("%[^\n]", tempMedicament->lt.ref);
     printf("Numéro du secteur de stockage: ");
     scanf("%d", &tempMedicament->S_stc);
     printf("Quantité du médicament à ajouter: ");
@@ -359,41 +373,41 @@ void ajouterMed(List *list){
     
     if(nombreFournisseur > 0){
         printf("Nom du fournisseur 1: ");
-        scanf("%s", drug.fr1.nomF);
+        scanf("%[^\n]", drug.fr1.nomF);
         printf("Adresse du fournisseur 1: ");
-        scanf("%s", drug.fr1.adr);
+        scanf("%[^\n]", drug.fr1.adr);
         printf("Numero de telephone du fournisseur 1: ");
         scanf("%d", &drug.fr1.tel);
     }
     if(nombreFournisseur > 1){
         printf("\\nNom du fournisseur 2: ");
-        scanf("%s", drug.fr2.nomF);
+        scanf("%[^\n]", drug.fr2.nomF);
         printf("Adresse du fournisseur 2: ");
-        scanf("%s", drug.fr2.adr);
+        scanf("%[^\n]", drug.fr2.adr);
         printf("Numero de telephone du fournisseur 2: ");
         scanf("%d", &drug.fr3.tel);
     }
     if(nombreFournisseur > 2){
         printf("\\nNom du fournisseur 3: ");
-        scanf("%s", drug.fr3.nomF);
+        scanf("%[^\n]", drug.fr3.nomF);
         printf("Adresse du fournisseur 3: ");
-        scanf("%s", drug.fr3.adr);
+        scanf("%[^\n]", drug.fr3.adr);
         printf("Numero de telephone du fournisseur 3: ");
         scanf("%d", &drug.fr3.tel);
     }
     if(nombreFournisseur > 4){
         printf("\\nNom du fournisseur 4: ");
-        scanf("%s", drug.fr4.nomF);
+        scanf("%[^\n]", drug.fr4.nomF);
         printf("Adresse du fournisseur 4: ");
-        scanf("%s", drug.fr4.adr);
+        scanf("%[^\n]", drug.fr4.adr);
         printf("Numero de telephone du fournisseur 4: ");
         scanf("%d", &drug.fr4.tel);
     }
     if(nombreFournisseur > 4){
         printf("\\nNom du fournisseur 5: ");
-        scanf("%s", drug.fr5.nomF);
+        scanf("%[^\n]", drug.fr5.nomF);
         printf("Adresse du fournisseur 5: ");
-        scanf("%s", drug.fr5.adr);
+        scanf("%[^\n]", drug.fr5.adr);
         printf("Numero de telephone du fournisseur 5: ");
         scanf("%d", &drug.fr5.tel);
     }
