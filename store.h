@@ -2,23 +2,18 @@
 #define MINI_PROJET_H_INCLUDED
 
 typedef struct{
-
     int jr;
     int mo;
     int an;
 }Date;
 
 typedef struct{
-
     char ref[10];
     Date dtf;
     Date dtp;
 }Lot;
 
-
-
 typedef struct {
-
     char nomF[20];
     char adr[30];
     int tel;
@@ -33,38 +28,26 @@ typedef struct{
     int Qstock;
     int S_stc;
     Lot lt;
-    Fournisseur fr;
+    Fournisseur fr1;
+    Fournisseur fr2;
+    Fournisseur fr3;
+    Fournisseur fr4;
+    Fournisseur fr5;
 
 }Medicament;
-
-// Liste des médicaments
-
-typedef struct Item Item;
-struct Item
-{
-    Medicament medicament;
-    Item *next;
-};
-
-typedef struct List List;
-struct List
-{
-    Item *first;
-};
 
 // fonction utilitaire
 int menu();
 
-List *initList();
-void insertItem(List *list, Medicament drug);
-void deleteItem(List *list);
 void initDate(Date *date);
+Date createDate(int jr, int mo, int an);
 void initLot(Lot *lot);
+Lot createLot(char ref[], Date dtf, Date dtp);
 void initFournisseur(Fournisseur *fr);
+Fournisseur createFournisseur(int tel, char adr[], char nomF[]);
 void initMedicament(Medicament *drug);
-void printDrugs(List *list);
-
-
-
+Medicament createDrug(char labnomM[], char nomM[], float px, int QStock, int S_stc, Lot lt);
+int initId();
+void  printProvider(Medicament *drug);
 #endif // MINI_PROJET_H_INCLUDED
 
