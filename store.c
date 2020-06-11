@@ -137,6 +137,7 @@ int initId() {
     fclose(folder);
 }
 
+
 // Affiche les fournisseurs d'un médicament
 void  printProvider(Medicament *drug){
     if(strcmp(drug->fr1.nomF, "NULL") != 0)

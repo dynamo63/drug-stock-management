@@ -19,16 +19,19 @@ int main(int argc, char *argv[]){
     Medicament medoc3 = createDrug("labo-saint", "Thérésa", 20.000, 10, 2, lot);
     Medicament medoc4 = createDrug("labo-saint", "Clémentine", 20.000, 10, 2, lot2);
     medoc4.fr1 = fournisseur2;
+    medoc3.fr1 = fournisseur2;
     List *maListe = initList(&medoc1);
     insertItem(maListe, &medoc2);
     insertItem(maListe, &medoc3);
     insertItem(maListe, &medoc4);
+    FILE *floderFMED = fopen("db/FMDED.txt", "r");
+    List *liste2 = initListByFile(floderFMED);
     
     
     int choix = -1, nbMED;
     char drugName[20], buffer[200];
     Medicament tempDrug;
-    system("clear");
+    // system("clear");
     while(choix){
         switch(choix){
             case(0):

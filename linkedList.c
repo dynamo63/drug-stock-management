@@ -5,6 +5,9 @@
 #include <stdbool.h>
 #include "store.h"
 #include "linkedList.h"
+#define MAX_ID 1000
+// static int id = 0;
+
 
 
 // Initie la liste chaînée
@@ -28,22 +31,24 @@ List *initList(Medicament *drug)
 }
 
 // Initie la liste chaînée
-List *initListByFile(Medicament *drug, FILE *FMED)
+List *initListByFile(FILE *FMED)
 {
+    FILE *fichier = fopen("db/FMED.txt", "r");
+    int i=0;
     List *list = malloc(sizeof(*list));
     Item *item = malloc(sizeof(*item));
+    Medicament *drug;
+    signed char texte[256];
 
     if (list == NULL || item == NULL)
     {
         exit(EXIT_FAILURE);
     }
-
-    // Medicament medoc;
-    // initMedicament(&medoc);
-    item->medicament = *drug;
-    item->next = NULL;
-    list->first = item;
-
+    while(fgets(texte, 255, fichier) != 0){
+        printf("%s\nj", texte);
+    }
+    
+    fclose(fichier);
     return list;
 }
 
@@ -254,7 +259,7 @@ char *displayDrug(const Medicament *drug, char *buffer){
 
 //  Affiche toutes les informations sur un médicament
 char *displayDrugAll(const Medicament *drug, char *buffer){
-    char dateFormated[40], fr1Formated[1000], fr2Formated[1000], fr3Formated[1000], fr4Formated[1000], fr5Formated[1000];
+    char dateFormated[40], datefFormated[40], fr1Formated[1000], fr2Formated[1000], fr3Formated[1000], fr4Formated[1000], fr5Formated[1000];
     if(drug->fr1.nomF != "")
         sprintf(fr1Formated, "[%s--%s--%d]", drug->fr1.nomF, drug->fr1.adr, drug->fr1.tel);
     else
@@ -276,8 +281,9 @@ char *displayDrugAll(const Medicament *drug, char *buffer){
     else
         sprintf(fr5Formated, "NULL");
 
+    sprintf(datefFormated, "%d/%d/%d", drug->lt.dtf.jr, drug->lt.dtf.mo, drug->lt.dtf.an);
     sprintf(dateFormated, "%d/%d/%d", drug->lt.dtp.jr, drug->lt.dtp.mo, drug->lt.dtp.an);
-    sprintf(buffer,"%d\t%s\t%s\t%s\t%s\t%f\t%d\t\t%s\t%s\t%s\t%s\t%s\t\n",drug->numM, drug->nomM, drug->lab, drug->lt.ref, dateFormated, drug->px, drug->Qstock, fr1Formated, fr2Formated, fr3Formated, fr4Formated, fr5Formated);
+    sprintf(buffer,"%d\t%s\t%s\t%s\t%s\t%s\t%f\t%d\t\t%s\t%s\t%s\t%s\t%s\n",drug->numM, drug->nomM, drug->lab, drug->lt.ref, datefFormated, dateFormated, drug->px, drug->Qstock, fr1Formated, fr2Formated, fr3Formated, fr4Formated, fr5Formated);
     return buffer;
 }
 
@@ -298,14 +304,14 @@ void save(List *list) {
 
     do{
         char buffer[200];
-        fprintf(folderFMED,"%s", displayDrug(&item->medicament, buffer));
+        fprintf(folderFMED,"%s", displayDrugAll(&item->medicament, buffer));
         item = item->next;
     }while (item->next != NULL);
 
     // Sauvegarde du dernier item ainsi que l'id
     char buf[200];
-    fprintf(folderFMED,"%s", displayDrug(&item->medicament, buf));
-    fprintf(folderID, "%d", list->first->medicament.numM);
+    fprintf(folderFMED,"%s", displayDrugAll(&item->medicament, buf));
+    fprintf(folderID, "%d", list->first->medicament.numM + 1);
 
     
     fclose(folderFMED);
@@ -315,7 +321,7 @@ void save(List *list) {
 // Ajoute un médicament à la liste
 void ajouterMed(List *list){
     Medicament *tempMedicament = malloc(sizeof(*tempMedicament));
-    tempMedicament->numM = initId();
+    tempMedicament->numM = getId();
     int nombreFournisseur;
     printf("Nom: ");
     scanf("%s", tempMedicament->nomM);
@@ -520,4 +526,28 @@ void deleteItem(List *list, int id)
     }else{
         printf("\nLe medicament numero %d a bien été suprime", id);
     }
+}
+//Retourne l'identifiant suivant
+int getId(){
+    int id = 0;
+    FILE *folder = NULL;
+    folder = fopen("db/id.txt","r");
+    
+    if(folder == NULL)
+        printf("File Error");
+    
+    char value[MAX_ID] = "";
+    
+    fgets(value, MAX_ID, folder);
+    if(strcmp(value,"")){
+        id = atoi(value);
+    }
+    else{
+        printf("%s", value);
+    }
+    fclose(folder);
+    FILE *floder = fopen("db/id.txt", "w");
+    fprintf(folder, "%d", id+1);
+    fclose(floder);
+    return id;
 }

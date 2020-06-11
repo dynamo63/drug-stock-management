@@ -1,4 +1,4 @@
-9	Clémentine	labo-saint	Lot2	9/6/2020	20.000000	10
-8	Thérésa	labo-saint	Lot-saint	3/3/2025	20.000000	10
-7	Albertine	labo-saint	Lot2	9/6/2020	20.000000	10
-6	Albert	labo-saint	Lot-saint	3/3/2025	20.000000	10
+3	Clémentine	labo-saint	Lot2	3/3/2017	9/6/2020	20.000000	10	    [Lamboni--Laboratoire Lamboni-LABO--91611135]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]
+2	Thérésa	labo-saint	Lot-saint	3/3/2017	3/3/2025	20.000000	10		[Lamboni--Laboratoire Lamboni-LABO--91611135]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]
+1	Albertine	labo-saint	Lot2	3/3/2017	9/6/2020	20.000000	10		[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]
+0	Albert	labo-saint	Lot-saint	3/3/2017	3/3/2025	20.000000	10		[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]	[NULL--NULL--0]

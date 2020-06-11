@@ -17,7 +17,7 @@ struct List
 };
 
 List *initList(Medicament *drug);
-List *initListByFile(Medicament *drug, FILE *FMED);
+List *initListByFile(FILE *FMED);
 int containItem(List *list, Medicament drug);
 int containRefLot(List *list, Medicament drug);
 void listIncrement(List *list, Medicament drug);
@@ -35,6 +35,7 @@ void servePrescription(List *list);
 int isExpired(Medicament *drug);
 void printExpiredDrugs(List *list);
 void deleteItem(List *list, int id);
+int getId();
 
 
 // Sauvegarde la liste dans fichier FMED.txt
